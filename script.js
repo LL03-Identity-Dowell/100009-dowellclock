@@ -20,7 +20,7 @@ fetch('https://100009.pythonanywhere.com/dowellclock/', {
     })
     .then(data => {
         document.getElementById("dowellTime").innerHTML = "Dowell Time: " + data.dowelltime;
-        document.getElementById("unixtime").innerHTML = "Current Time: " + data.currenttime;
+        document.getElementById("unixtime").innerHTML = "Regional Time: " + data.currenttime;
     })
     .catch(error => {
     console.error('There was a problem with the fetch operation:', error);
