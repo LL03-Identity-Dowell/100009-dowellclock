@@ -1,7 +1,9 @@
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const n = 1;
+// https://100009.pythonanywhere.com/dowellclock/
+// http://127.0.0.1:8000/dowellclock/
 const intervalId = setInterval(() => {
-fetch('http://127.0.0.1:8000/dowellclock/', {
+fetch('https://100009.pythonanywhere.com/dowellclock/', {
     method: 'POST',
     headers: {
     'Content-Type': 'application/json'
