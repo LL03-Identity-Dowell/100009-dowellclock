@@ -8,7 +8,7 @@ body {
     background-color: #e0e0e0;
 }
   
-#dowellTime, #unixtime, #updatetime {
+#dowellTime, #unixtime, #updatetime ,#Updateregional{
     margin-top: 20px;
     font-size: 36px;
     font-weight: bold;
@@ -25,5 +25,8 @@ body {
 }
 
 #updatetime {
+    color: #1565C0;
+}
+#Updateregional{
     color: #1565C0;
 }
