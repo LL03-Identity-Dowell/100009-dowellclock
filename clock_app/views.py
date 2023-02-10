@@ -13,8 +13,9 @@ class dowellclock(APIView):
     def post(self, request):
         timezone = request.data.get('timezone')
         timezonename = pytz.timezone(timezone)
-        t2 = datetime.now(timezonename)
-        unixtime= time.time()
+        current_time = datetime.now(timezonename)
+        time_only = current_time.strftime("%H:%M:%S")
+        unixtime= int(time.mktime(current_time.timetuple()))
         dowellstarttime = "1609459200"
-        t1= int(unixtime)-int(dowellstarttime)
-        return Response({'t1':t1, 'unixtime':unixtime,'t2':t2},status=status.HTTP_200_OK)
+        dowelltime= int(unixtime)-int(dowellstarttime)
+        return Response({'dowelltime':dowelltime, 'currenttime':time_only},status=status.HTTP_200_OK)
