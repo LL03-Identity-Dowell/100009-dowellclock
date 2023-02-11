@@ -31,14 +31,12 @@ Number.prototype.pad = function(n) {
 function updateClock() {
   apires++;
   var now = new Date();
-  var unix = new Date().getTime();
-  var dowelltime = unix - 1609459200;
   var milli = now.getMilliseconds(),
     sec = now.getSeconds(),
     min = now.getMinutes(),
     hou = now.getHours();
-  var tags = ["unix", "dowell", "dowellup", "h", "m", "s", "mi"],
-    corr = [unix, dowelltime, apires, hou.pad(2), min.pad(2), sec.pad(2), milli];
+  var tags = ["dowellup", "h", "m", "s", "mi"],
+    corr = [apires, hou.pad(2), min.pad(2), sec.pad(2), milli];
   for (var i = 0; i < tags.length; i++)
     document.getElementById(tags[i]).firstChild.nodeValue = corr[i];
 }
