@@ -5,12 +5,19 @@
     <title>Dowell Clock API</title>
     <link rel="stylesheet" href="./style.css">
   </head>
-  <body>
-    <div id="dowellTime"></div>
-    <div id="unixtime"></div>
-    <div id="Updateregional"></div>
-    <div id="updatetime"></div>
-    <script src="./script.js"></script>
+  <body onLoad="initClock()">
+
+    <div id="timedate">
+      Unix Time: <a id="unix">0</a><br />
+      Dowell Time: <a id="dowell">0</a><br />
+      API <a id="dowellTime">0</a><br />
+      Updating: <a id="dowellup">0</a><br />
+      Regional Time: <a id="h">12</a> :
+      <a id="m">00</a>:
+      <a id="s">00</a>:
+      <a id="mi">000</a>
+    </div>
+    ,<script src="./script.js"></script>
   </body>
 </html>
 

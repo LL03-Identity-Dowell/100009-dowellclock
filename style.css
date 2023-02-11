@@ -1,32 +1,11 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #e0e0e0;
-}
-  
-#dowellTime, #unixtime, #updatetime ,#Updateregional{
-    margin-top: 20px;
-    font-size: 36px;
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-}
+body {background-color:#2d2d2d;}
 
-#dowellTime {
-    color: #0277BD;
-}
-
-#unixtime {
-    color: #1565C0;
-}
-
-#updatetime {
-    color: #1565C0;
-}
-#Updateregional{
-    color: #1565C0;
+#timedate {
+  font: small-caps lighter 43px/150% "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  text-align:left;
+  width: 50%;
+  margin: 40px auto;
+  color:#fff;
+  border-left: 3px solid #ed1f24;
+  padding: 20px;
 }
