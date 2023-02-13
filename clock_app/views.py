@@ -18,4 +18,4 @@ class dowellclock(APIView):
         unixtime= int(time.mktime(current_time.timetuple()))
         dowellstarttime = "1609459200"
         dowelltime= int(unixtime)-int(dowellstarttime)
-        return Response({'dowelltime':dowelltime, 'currenttime':time_only},status=status.HTTP_200_OK)
+        return Response({'dowelltime':dowelltime,'current_time':current_time, 'currenttime':time_only},status=status.HTTP_200_OK)
