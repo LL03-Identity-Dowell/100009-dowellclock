@@ -1,36 +1,69 @@
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-
 const dowelltime = document.getElementById('dowelltime');
+const updatingtime = document.getElementById('updatedowelltime');
+const updatemillisecond = document.getElementById('updatemillisecond');
+const starttime = document.getElementById('start_time');
+const sessiontime = document.getElementById('sessiontime');
+const oneMinutetime = document.getElementById('oneMinutetime');
 const hour = document.getElementById('h');
 const minute = document.getElementById('m');
 const second = document.getElementById('s');
 const millisecond = document.getElementById('mi');
-const updatingtime = document.getElementById('updatingtime');
-const starttime = document.getElementById('start_time');
-const sessiontime = document.getElementById('sessiontime');
-const oneMinutetime = document.getElementById('oneMinutetime');
 
-fetch("https://100009.pythonanywhere.com/dowellclock/", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({
-    timezone: timezone
-  })
-})
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+const fetchData = async () => {
+    try {
+      const response = await fetch('https://100009.pythonanywhere.com/dowellclock/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
     }
-    return response.json();
-  })
-  .then((data) => {
-    console.log(data);
+  };
+// dowell time
+fetchData().then((data) => {
+    // set the initial dowelltime and start time values
     dowelltime.innerHTML = data.dowelltime;
     starttime.innerHTML = data.currenttime;
-    let dowell_time = data.dowelltime;
+
+    // update oneMinutetime after 1 minute
+    oneMinutetime.innerHTML= data.dowelltime;
+    setInterval(() => {
+        fetchData().then((data) => {
+            oneMinutetime.innerHTML = data.dowelltime;
+        });
+    }, 60000);
+
+    // update the updating time values
+    updatingtime.innerHTML = data.dowelltime;
+    setInterval(() => {
+        fetchData().then((data) => {
+            updatingtime.innerHTML = data.dowelltime;
+        });
+    }, 60000);
+    let updatemilliseconds = 0;
+    const updateInterval = setInterval(() => {
+        updatemilliseconds += 1;
+        if (updatemilliseconds >= 60000) {
+            updatemilliseconds = 0; // reset the counter to 0 after 1 minute
+        }
+        updatemillisecond.innerHTML = updatemilliseconds;
+    }, 1); 
+    
+    // regional time
     setInterval(()=> {
         var currentTime = new Date();
         var hours = currentTime.getHours();
@@ -42,58 +75,5 @@ fetch("https://100009.pythonanywhere.com/dowellclock/", {
         minute.innerHTML = minutes;
         second.innerHTML = seconds;
         millisecond.innerHTML = milliseconds;
-
-        dowell_time = dowell_time + 1/1000;
-        var updateTime = dowell_time.toFixed(3).toString().replace(".", "");
-        updatingtime.innerHTML = updateTime;
-
-        let specifiedTime = new Date(data.current_time);
-        let timeDifference = currentTime - specifiedTime;
-
-        let timehours = Math.floor(timeDifference / 3600000);
-        let timeminutes = Math.floor((timeDifference % 3600000) / 60000);
-        let timeseconds = Math.floor((timeDifference % 60000) / 1000);
-        let timemilliseconds = timeDifference % 1000;
-
-        let formattedTime =
-            ('0' + timehours).slice(-2) +
-            ":" +
-            ('0' + timeminutes).slice(-2) +
-            ":" +
-            ('0' + timeseconds).slice(-2) +
-            ":" +
-            ('00' + timemilliseconds).slice(-3);
-        sessiontime.innerHTML = formattedTime;
-
     },1);
-
-  })
-  .catch((error) => {
-    console.error("There was a problem with the fetch operation:", error);
-  });
-
-const dowellTimeAfterOneMin = setInterval(()=>{
-  fetch("https://100009.pythonanywhere.com/dowellclock/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      timezone: timezone
-    })
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data);
-      oneMinutetime.innerHTML = data.dowelltime;
-      })
-    .catch((error) => {
-      console.error("There was a problem with the fetch operation:", error);
-    });
-},60000)
-  
+});
