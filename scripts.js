@@ -9,7 +9,7 @@ const millisecond = document.getElementById('mi');
 const updatingtime = document.getElementById('updatingtime');
 const starttime = document.getElementById('start_time');
 const sessiontime = document.getElementById('sessiontime');
-
+const oneMinutetime = document.getElementById('oneMinutetime');
 
 fetch("https://100009.pythonanywhere.com/dowellclock/", {
   method: "POST",
@@ -43,7 +43,7 @@ fetch("https://100009.pythonanywhere.com/dowellclock/", {
         second.innerHTML = seconds;
         millisecond.innerHTML = milliseconds;
 
-        dowell_time = dowell_time + milliseconds/1000;
+        dowell_time = dowell_time + 1/1000;
         var updateTime = dowell_time.toFixed(3).toString().replace(".", "");
         updatingtime.innerHTML = updateTime;
 
@@ -71,3 +71,29 @@ fetch("https://100009.pythonanywhere.com/dowellclock/", {
   .catch((error) => {
     console.error("There was a problem with the fetch operation:", error);
   });
+
+const dowellTimeAfterOneMin = setInterval(()=>{
+  fetch("https://100009.pythonanywhere.com/dowellclock/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      timezone: timezone
+    })
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data);
+      oneMinutetime.innerHTML = data.dowelltime;
+      })
+    .catch((error) => {
+      console.error("There was a problem with the fetch operation:", error);
+    });
+},60000)
+  
