@@ -54,6 +54,8 @@ fetchData().then((data) => {
             updatingtime.innerHTML = data.dowelltime;
         });
     }, 60000);
+
+    // correct this nitesh
     let updatemilliseconds = 0;
     const updateInterval = setInterval(() => {
         updatemilliseconds += 1;
