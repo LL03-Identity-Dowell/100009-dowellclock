@@ -58,13 +58,13 @@ fetchData().then((data) => {
     // correct this nitesh
     let updatemilliseconds = 0;
     const updateInterval = setInterval(() => {
-        updatemilliseconds += 1;
-        if (updatemilliseconds >= 60000) {
-            updatemilliseconds = 0; // reset the counter to 0 after 1 minute
-        }
-        updatemillisecond.innerHTML = updatemilliseconds;
-    }, 1); 
-    
+      updatemilliseconds = 0; // reset the value to zero
+    }, 60000);
+
+    setInterval(() => {
+      updatemilliseconds += 1;
+      updatemillisecond.innerHTML = updatemilliseconds;
+    }, 1);   
     // regional time
     setInterval(()=> {
         var currentTime = new Date();
