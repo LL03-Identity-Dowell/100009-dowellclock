@@ -6,10 +6,7 @@ const updatemillisecond = document.getElementById('updatemillisecond');
 const starttime = document.getElementById('start_time');
 const sessiontime = document.getElementById('sessiontime');
 const oneMinutetime = document.getElementById('oneMinutetime');
-const regionalhour = document.getElementById('regional-h');
-const regionalminute = document.getElementById('regional-m');
-const regionalsecond = document.getElementById('regional-s');
-const regionalmillisecond = document.getElementById('regional-mi');
+const regional = document.getElementById('regional');
 const systemhour = document.getElementById('system-h');
 const systemminute = document.getElementById('system-m');
 const systemsecond = document.getElementById('system-s');
@@ -32,6 +29,7 @@ const fetchData = async () => {
       }
   
       const data = await response.json();
+      console.log(data);
       return data;
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
@@ -71,18 +69,16 @@ fetchData().then((data) => {
     }, 1); 
       
     // regional time
-    setInterval(()=> {
-        var currentTime = new Date();
-        var hours = currentTime.getHours();
-        var minutes = currentTime.getMinutes();
-        var seconds = currentTime.getSeconds();
-        var milliseconds = currentTime.getMilliseconds();
+    let datetimeString = data.current_time;
+    regional.innerHTML = datetimeString.substr(11, 12);
 
-        regionalhour.innerHTML = hours;
-        regionalminute.innerHTML = minutes;
-        regionalsecond.innerHTML = seconds;
-        regionalmillisecond.innerHTML = milliseconds;
-    },1);
+    setInterval(() => {
+      fetchData().then((data) => {
+        const datetimeString = data.current_time;
+        const timeString = datetimeString.substr(11, 12);
+        regional.innerHTML = timeString;
+      });
+    }, 60000);
 
     // system time
     setInterval(()=> {
