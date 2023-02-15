@@ -6,10 +6,14 @@ const updatemillisecond = document.getElementById('updatemillisecond');
 const starttime = document.getElementById('start_time');
 const sessiontime = document.getElementById('sessiontime');
 const oneMinutetime = document.getElementById('oneMinutetime');
-const hour = document.getElementById('h');
-const minute = document.getElementById('m');
-const second = document.getElementById('s');
-const millisecond = document.getElementById('mi');
+const regionalhour = document.getElementById('regional-h');
+const regionalminute = document.getElementById('regional-m');
+const regionalsecond = document.getElementById('regional-s');
+const regionalmillisecond = document.getElementById('regional-mi');
+const systemhour = document.getElementById('system-h');
+const systemminute = document.getElementById('system-m');
+const systemsecond = document.getElementById('system-s');
+const systemmillisecond = document.getElementById('system-mi');
 
 const fetchData = async () => {
     try {
@@ -64,7 +68,8 @@ fetchData().then((data) => {
     setInterval(() => {
       updatemilliseconds += 1;
       updatemillisecond.innerHTML = updatemilliseconds;
-    }, 1);   
+    }, 1); 
+      
     // regional time
     setInterval(()=> {
         var currentTime = new Date();
@@ -73,9 +78,47 @@ fetchData().then((data) => {
         var seconds = currentTime.getSeconds();
         var milliseconds = currentTime.getMilliseconds();
 
-        hour.innerHTML = hours;
-        minute.innerHTML = minutes;
-        second.innerHTML = seconds;
-        millisecond.innerHTML = milliseconds;
+        regionalhour.innerHTML = hours;
+        regionalminute.innerHTML = minutes;
+        regionalsecond.innerHTML = seconds;
+        regionalmillisecond.innerHTML = milliseconds;
     },1);
+
+    // system time
+    setInterval(()=> {
+      var currentTime = new Date();
+      var hours = currentTime.getHours();
+      var minutes = currentTime.getMinutes();
+      var seconds = currentTime.getSeconds();
+      var milliseconds = currentTime.getMilliseconds();
+
+      systemhour.innerHTML = hours;
+      systemminute.innerHTML = minutes;
+      systemsecond.innerHTML = seconds;
+      systemmillisecond.innerHTML = milliseconds;
+  },1);
+
+  // session time 
+  setInterval(()=> {
+    var currentTime = new Date();
+    let specifiedTime = new Date(data.current_time);
+    let timeDifference = currentTime - specifiedTime;
+
+    let timehours = Math.floor(timeDifference / 3600000);
+    let timeminutes = Math.floor((timeDifference % 3600000) / 60000);
+    let timeseconds = Math.floor((timeDifference % 60000) / 1000);
+    let timemilliseconds = timeDifference % 1000;
+
+    let formattedTime =
+        ('0' + timehours).slice(-2) +
+        ":" +
+        ('0' + timeminutes).slice(-2) +
+        ":" +
+        ('0' + timeseconds).slice(-2) +
+        ":" +
+        ('00' + timemilliseconds).slice(-3);
+    sessiontime.innerHTML = formattedTime;
+
+  },1);
+
 });
